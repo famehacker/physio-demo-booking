@@ -17,19 +17,19 @@ import { Card, CardContent } from "@/components/ui/card";
 const Index = () => {
   const testimonials = [
     {
-      name: "Sarah Johnson",
+      name: "Priya Sharma",
       role: "Marathon Runner",
       content: "PhysicoTech completely transformed my recovery journey after my knee injury. I'm back to running marathons, something I thought might never happen again!",
       rating: 5,
     },
     {
-      name: "Michael Chen",
-      role: "Office Worker",
+      name: "Rahul Mehra",
+      role: "IT Professional",
       content: "After years of chronic back pain from desk work, the therapists at PhysicoTech gave me a personalized treatment plan that finally brought relief.",
       rating: 5,
     },
     {
-      name: "Emma Rodriguez",
+      name: "Anita Desai",
       role: "Retired Teacher",
       content: "The arthritis in my hands was making daily tasks unbearable. Thanks to PhysicoTech's specialized therapy, I've regained mobility and independence.",
       rating: 5,
@@ -55,7 +55,7 @@ const Index = () => {
     {
       name: "Monthly",
       description: "For ongoing therapy needs",
-      price: "$299",
+      price: "₹2,499",
       period: "per month",
       features: [
         "4 sessions per month",
@@ -71,7 +71,7 @@ const Index = () => {
     {
       name: "Yearly",
       description: "Best value for long-term care",
-      price: "$2,799",
+      price: "₹24,999",
       period: "per year",
       features: [
         "48 sessions per year",
@@ -138,7 +138,7 @@ const Index = () => {
             <div className="relative">
               <div className="relative w-full h-[400px] bg-white rounded-2xl shadow-xl overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1587204711113-7210a17b4cca?auto=format&fit=crop&q=80"
+                  src="https://images.unsplash.com/photo-1588286840104-8957b019727f?auto=format&fit=crop&q=80"
                   alt="Physiotherapy session"
                   className="w-full h-full object-cover"
                 />

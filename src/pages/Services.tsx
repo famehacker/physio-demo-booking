@@ -29,7 +29,7 @@ const Services = () => {
         "Injury prevention strategies",
         "Custom exercise programming"
       ],
-      image: "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3?auto=format&fit=crop&q=80"
+      image: "https://images.unsplash.com/photo-1633015450607-b9e9aa4de936?auto=format&fit=crop&q=80"
     },
     {
       id: "ortho",
@@ -43,7 +43,7 @@ const Services = () => {
         "Therapeutic exercises for strength and mobility",
         "Pain management strategies"
       ],
-      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80"
+      image: "https://images.unsplash.com/photo-1547941126-3d5322b218b0?auto=format&fit=crop&q=80"
     },
     {
       id: "neuro",
@@ -57,7 +57,7 @@ const Services = () => {
         "Adaptive equipment recommendations",
         "Cognitive-motor training"
       ],
-      image: "https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&q=80"
+      image: "https://images.unsplash.com/photo-1551884170-09fb70a3a2ed?auto=format&fit=crop&q=80"
     },
     {
       id: "geriatric",
@@ -71,7 +71,7 @@ const Services = () => {
         "Balance improvement techniques",
         "Home safety assessments"
       ],
-      image: "https://images.unsplash.com/photo-1574086798631-93f1e8e5a7e3?auto=format&fit=crop&q=80"
+      image: "https://images.unsplash.com/photo-1532635241-17e820acc59f?auto=format&fit=crop&q=80"
     },
     {
       id: "cardio",
@@ -85,7 +85,7 @@ const Services = () => {
         "Monitored exercise progression",
         "Education on managing cardiopulmonary conditions"
       ],
-      image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?auto=format&fit=crop&q=80"
+      image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80"
     },
     {
       id: "pediatric",
@@ -140,33 +140,33 @@ const Services = () => {
 
   const testimonials = [
     {
-      quote: "The sports rehabilitation program helped me recover from my ACL injury much faster than I expected. I'm back to playing soccer at my pre-injury level.",
-      author: "Michael T., Soccer Player",
+      quote: "The sports rehabilitation program helped me recover from my cricket injury much faster than I expected. I'm back to playing at my pre-injury level.",
+      author: "Rajesh T., Cricketer",
       specialty: "sports"
     },
     {
       quote: "After my hip replacement, the orthopedic therapy team guided me through every step of recovery. Their expertise made all the difference.",
-      author: "Patricia L., Hip Replacement Patient",
+      author: "Lata P., Hip Replacement Patient",
       specialty: "ortho"
     },
     {
       quote: "Following my stroke, I wasn't sure how much function I'd regain. The neurological rehabilitation program helped me relearn how to walk and use my affected arm.",
-      author: "Robert J., Stroke Recovery Patient",
+      author: "Rajan J., Stroke Recovery Patient",
       specialty: "neuro"
     },
     {
-      quote: "At 85, I was starting to feel unsteady on my feet. The geriatric therapy program helped me improve my balance and confidence. I haven't had a fall in over a year!",
-      author: "Eleanor W., 85 years old",
+      quote: "At 78, I was starting to feel unsteady on my feet. The geriatric therapy program helped me improve my balance and confidence. I haven't had a fall in over a year!",
+      author: "Saraswati D., 78 years old",
       specialty: "geriatric"
     },
     {
       quote: "After my heart surgery, the cardiopulmonary team helped me gradually rebuild my stamina. Now I can enjoy walking with my grandchildren again.",
-      author: "David M., Cardiac Patient",
+      author: "Deepak M., Cardiac Patient",
       specialty: "cardio"
     },
     {
       quote: "The pediatric therapists were amazing with my son who has developmental delays. Their patience and specialized techniques have helped him reach new milestones.",
-      author: "Sarah K., Mother of 4-year-old patient",
+      author: "Sunita K., Mother of 4-year-old patient",
       specialty: "pediatric"
     }
   ];
@@ -342,7 +342,7 @@ const Services = () => {
             
             <div className="rounded-xl overflow-hidden shadow-lg">
               <img 
-                src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80" 
+                src="https://images.unsplash.com/photo-1573046462562-75ee02980272?auto=format&fit=crop&q=80" 
                 alt="Patient receiving care" 
                 className="w-full h-auto"
               />
