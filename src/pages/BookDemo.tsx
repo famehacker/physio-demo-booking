@@ -36,21 +36,13 @@ const BookDemo = () => {
     name: "",
     email: "",
     phone: "",
-    timeSlot: "",
+    preferredTime: "",
     serviceType: "",
     concerns: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { toast } = useToast();
-
-  // Using 24-hour format time slots
-  const timeSlots = [
-    "09:00", "10:00", "11:00", 
-    "12:00", "13:00", "14:00", 
-    "15:00", "16:00", "17:00",
-    "18:00", "19:00", "20:00"
-  ];
   
   const serviceTypes = [
     "General Assessment",
@@ -83,9 +75,9 @@ const BookDemo = () => {
       return;
     }
 
-    if (!formData.timeSlot) {
+    if (!formData.preferredTime) {
       toast({
-        title: "Please select a time slot",
+        title: "Please enter your preferred time",
         variant: "destructive",
       });
       setIsSubmitting(false);
@@ -139,7 +131,7 @@ const BookDemo = () => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Time</p>
-                  <p className="font-medium">{formData.timeSlot} hrs</p>
+                  <p className="font-medium">{formData.preferredTime}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Service</p>
@@ -285,7 +277,7 @@ const BookDemo = () => {
                   </div>
 
                   <div className="mb-6">
-                    <Label className="mb-2 block">Select Date & Time</Label>
+                    <Label className="mb-2 block">Date & Time Selection</Label>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <div className="flex items-center mb-4">
@@ -327,25 +319,23 @@ const BookDemo = () => {
                       <div>
                         <div className="flex items-center mb-4">
                           <Clock className="mr-2 h-5 w-5 text-physicotech-600" />
-                          <span className="font-medium">Select Time Slot (24-hour format)</span>
+                          <span className="font-medium">Preferred Time</span>
                         </div>
-                        <div className="grid grid-cols-3 gap-3">
-                          {timeSlots.map((time) => (
-                            <Button
-                              key={time}
-                              type="button"
-                              variant={formData.timeSlot === time ? "default" : "outline"}
-                              className={`h-auto py-2 px-3 text-sm ${
-                                formData.timeSlot === time 
-                                  ? "bg-physicotech-600 hover:bg-physicotech-700" 
-                                  : ""
-                              }`}
-                              onClick={() => handleSelectChange("timeSlot", time)}
-                            >
-                              {time}
-                            </Button>
-                          ))}
+                        <div className="relative">
+                          <Clock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                          <Input
+                            id="preferredTime"
+                            name="preferredTime"
+                            value={formData.preferredTime}
+                            onChange={handleInputChange}
+                            placeholder="e.g. 9 AM, 2 PM, 5:30 PM"
+                            className="pl-10"
+                            required
+                          />
                         </div>
+                        <p className="text-sm text-gray-500 mt-2">
+                          We are open from 6 AM to 12 PM, every day of the year.
+                        </p>
                       </div>
                     </div>
                   </div>
