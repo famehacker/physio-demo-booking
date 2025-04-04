@@ -63,6 +63,17 @@ const BookDemo = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleDateChange = (selectedDate: Date | undefined) => {
+    setDate(selectedDate);
+    // Reset time when date changes
+    if (selectedDate) {
+      setFormData(prev => ({
+        ...prev,
+        preferredTime: ""
+      }));
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -307,7 +318,7 @@ const BookDemo = () => {
                               <Calendar
                                 mode="single"
                                 selected={date}
-                                onSelect={setDate}
+                                onSelect={handleDateChange}
                                 disabled={{ before: new Date() }}
                                 initialFocus
                                 className={cn("p-3 pointer-events-auto")}

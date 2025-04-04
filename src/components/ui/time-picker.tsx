@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -32,8 +32,10 @@ export function TimePicker({
   // Minutes in 15-minute increments
   const minutes = ["00", "15", "30", "45"];
   
-  // AM/PM for 12-hour format
-  const periods = ["AM", "PM"];
+  // Only show hours between 6 AM and 12 PM for clinic hours
+  const filteredHours = use12Hours
+    ? hours.filter(hour => hour >= 6 && hour <= 12)
+    : hours.filter(hour => (hour >= 6 && hour < 12) || hour === 0); // 0 represents 12 in 24-hour format
 
   const handleSelectTime = (hour: number, minute: string, period?: string) => {
     const formattedHour = hour.toString().padStart(2, '0');
@@ -44,6 +46,19 @@ export function TimePicker({
     onChange(formattedTime);
     setIsOpen(false);
   };
+
+  // Reset value when component mounts or updates
+  useEffect(() => {
+    if (!value && filteredHours.length > 0 && minutes.length > 0) {
+      const defaultHour = filteredHours[0];
+      const defaultMinute = minutes[0];
+      const defaultPeriod = use12Hours ? "AM" : undefined;
+      
+      // Don't auto-select a time on initial render
+      // Only do this if you want a default time
+      // handleSelectTime(defaultHour, defaultMinute, defaultPeriod);
+    }
+  }, []);
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -61,11 +76,11 @@ export function TimePicker({
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">
-        <div className="p-4 overflow-hidden">
+        <div className="p-4 overflow-auto max-h-[300px]">
           <div className="flex flex-col">
             {use12Hours ? (
               <div className="grid grid-cols-4 gap-2">
-                {hours.map((hour) => (
+                {filteredHours.map((hour) => (
                   <div key={hour} className="space-y-1">
                     {minutes.map((minute) => (
                       <React.Fragment key={`${hour}:${minute}`}>
@@ -77,14 +92,16 @@ export function TimePicker({
                         >
                           {hour}:{minute} AM
                         </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="w-full"
-                          onClick={() => handleSelectTime(hour, minute, "PM")}
-                        >
-                          {hour}:{minute} PM
-                        </Button>
+                        {hour !== 12 && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="w-full"
+                            onClick={() => handleSelectTime(hour, minute, "PM")}
+                          >
+                            {hour}:{minute} PM
+                          </Button>
+                        )}
                       </React.Fragment>
                     ))}
                   </div>
@@ -92,7 +109,7 @@ export function TimePicker({
               </div>
             ) : (
               <div className="grid grid-cols-4 gap-2">
-                {hours.map((hour) => (
+                {filteredHours.map((hour) => (
                   <div key={hour} className="space-y-1">
                     {minutes.map((minute) => (
                       <Button
