@@ -5,7 +5,6 @@ import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Select,
   SelectContent,
@@ -13,6 +12,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { useToast } from "@/hooks/use-toast";
 import { 
   CalendarCheck, 
@@ -20,9 +24,11 @@ import {
   User, 
   Mail, 
   Phone, 
-  CheckCircle, 
-  AlarmClock 
+  CheckCircle,
+  Calendar as CalendarIcon
 } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 const BookDemo = () => {
   const [date, setDate] = useState<Date | undefined>(undefined);
@@ -38,10 +44,12 @@ const BookDemo = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { toast } = useToast();
 
+  // Using 24-hour format time slots
   const timeSlots = [
-    "09:00 AM", "10:00 AM", "11:00 AM", 
-    "12:00 PM", "01:00 PM", "02:00 PM", 
-    "03:00 PM", "04:00 PM", "05:00 PM"
+    "09:00", "10:00", "11:00", 
+    "12:00", "13:00", "14:00", 
+    "15:00", "16:00", "17:00",
+    "18:00", "19:00", "20:00"
   ];
   
   const serviceTypes = [
@@ -69,6 +77,24 @@ const BookDemo = () => {
     if (!date) {
       toast({
         title: "Please select a date",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!formData.timeSlot) {
+      toast({
+        title: "Please select a time slot",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!formData.serviceType) {
+      toast({
+        title: "Please select a service type",
         variant: "destructive",
       });
       setIsSubmitting(false);
@@ -113,7 +139,7 @@ const BookDemo = () => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Time</p>
-                  <p className="font-medium">{formData.timeSlot}</p>
+                  <p className="font-medium">{formData.timeSlot} hrs</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Service</p>
@@ -230,7 +256,7 @@ const BookDemo = () => {
                           name="phone"
                           value={formData.phone}
                           onChange={handleInputChange}
-                          placeholder="(123) 456-7890"
+                          placeholder="+91 98765 43210"
                           className="pl-10"
                           required
                         />
@@ -261,38 +287,65 @@ const BookDemo = () => {
                   <div className="mb-6">
                     <Label className="mb-2 block">Select Date & Time</Label>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="bg-gray-50 p-4 rounded-lg">
+                      <div>
                         <div className="flex items-center mb-4">
                           <CalendarCheck className="mr-2 h-5 w-5 text-physicotech-600" />
                           <span className="font-medium">Select Date</span>
                         </div>
-                        <Calendar
-                          mode="single"
-                          selected={date}
-                          onSelect={setDate}
-                          className="rounded-md border"
-                          disabled={{ before: new Date() }}
-                        />
+                        <div className="flex flex-col space-y-2">
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant={"outline"}
+                                className={cn(
+                                  "w-full pl-3 text-left font-normal",
+                                  !date && "text-muted-foreground"
+                                )}
+                              >
+                                {date ? (
+                                  format(date, "PPP")
+                                ) : (
+                                  <span>Pick a date</span>
+                                )}
+                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0" align="start">
+                              <Calendar
+                                mode="single"
+                                selected={date}
+                                onSelect={setDate}
+                                disabled={{ before: new Date() }}
+                                initialFocus
+                                className={cn("p-3 pointer-events-auto")}
+                              />
+                            </PopoverContent>
+                          </Popover>
+                        </div>
                       </div>
                       
                       <div>
                         <div className="flex items-center mb-4">
                           <Clock className="mr-2 h-5 w-5 text-physicotech-600" />
-                          <span className="font-medium">Select Time Slot</span>
+                          <span className="font-medium">Select Time Slot (24-hour format)</span>
                         </div>
-                        <RadioGroup 
-                          onValueChange={(value) => handleSelectChange("timeSlot", value)}
-                          className="grid grid-cols-3 gap-3"
-                        >
+                        <div className="grid grid-cols-3 gap-3">
                           {timeSlots.map((time) => (
-                            <div key={time} className="flex items-center space-x-2">
-                              <RadioGroupItem value={time} id={time} />
-                              <Label htmlFor={time} className="cursor-pointer">
-                                {time}
-                              </Label>
-                            </div>
+                            <Button
+                              key={time}
+                              type="button"
+                              variant={formData.timeSlot === time ? "default" : "outline"}
+                              className={`h-auto py-2 px-3 text-sm ${
+                                formData.timeSlot === time 
+                                  ? "bg-physicotech-600 hover:bg-physicotech-700" 
+                                  : ""
+                              }`}
+                              onClick={() => handleSelectChange("timeSlot", time)}
+                            >
+                              {time}
+                            </Button>
                           ))}
-                        </RadioGroup>
+                        </div>
                       </div>
                     </div>
                   </div>
