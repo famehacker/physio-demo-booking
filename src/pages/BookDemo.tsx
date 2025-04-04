@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
+import { TimePicker } from "@/components/ui/time-picker";
 
 const BookDemo = () => {
   const [date, setDate] = useState<Date | undefined>(undefined);
@@ -77,7 +78,7 @@ const BookDemo = () => {
 
     if (!formData.preferredTime) {
       toast({
-        title: "Please enter your preferred time",
+        title: "Please select a time",
         variant: "destructive",
       });
       setIsSubmitting(false);
@@ -321,21 +322,12 @@ const BookDemo = () => {
                           <Clock className="mr-2 h-5 w-5 text-physicotech-600" />
                           <span className="font-medium">Preferred Time</span>
                         </div>
-                        <div className="relative">
-                          <Clock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                          <Input
-                            id="preferredTime"
-                            name="preferredTime"
-                            value={formData.preferredTime}
-                            onChange={handleInputChange}
-                            placeholder="e.g. 9 AM, 2 PM, 5:30 PM"
-                            className="pl-10"
-                            required
-                          />
-                        </div>
-                        <p className="text-sm text-gray-500 mt-2">
-                          We are open from 6 AM to 12 PM, every day of the year.
-                        </p>
+                        <TimePicker 
+                          value={formData.preferredTime}
+                          onChange={(time) => handleSelectChange("preferredTime", time)}
+                          use12Hours
+                          className="w-full"
+                        />
                       </div>
                     </div>
                   </div>
