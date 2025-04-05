@@ -64,28 +64,28 @@ const Contact = () => {
     {
       icon: <MapPin className="h-5 w-5" />,
       title: "Location",
-      details: "123 Healing Street, Wellness City, WC 12345",
+      details: "123 Healthcare Avenue, Navrangpura, Ahmedabad, Gujarat 380009",
       link: "https://maps.google.com",
       linkText: "Get Directions"
     },
     {
       icon: <Phone className="h-5 w-5" />,
       title: "Phone",
-      details: "+1 (555) 123-4567",
-      link: "tel:+15551234567",
+      details: "+91 98765 43210",
+      link: "tel:+919876543210",
       linkText: "Call Now"
     },
     {
       icon: <Mail className="h-5 w-5" />,
       title: "Email",
-      details: "info@physicotech.com",
-      link: "mailto:info@physicotech.com",
+      details: "info@physicotech.in",
+      link: "mailto:info@physicotech.in",
       linkText: "Send Email"
     },
     {
       icon: <Clock className="h-5 w-5" />,
       title: "Hours",
-      details: "Mon-Fri: 8am-7pm, Sat: 9am-5pm",
+      details: "Mon-Sat: 8am-7pm, Sun: 9am-5pm",
       link: "/booking",
       linkText: "Book Appointment"
     }
@@ -93,28 +93,28 @@ const Contact = () => {
 
   const teamMembers = [
     {
-      name: "Dr. Sarah Johnson",
+      name: "Dr. Priya Sharma",
       role: "Sports Rehabilitation Specialist",
-      email: "sarah.johnson@physicotech.com",
-      phone: "+1 (555) 123-4567"
+      email: "priya.sharma@physicotech.in",
+      phone: "+91 98765 43210"
     },
     {
-      name: "Dr. Michael Rodriguez",
+      name: "Dr. Rajesh Patel",
       role: "Neurological Rehabilitation Expert",
-      email: "michael.rodriguez@physicotech.com",
-      phone: "+1 (555) 234-5678"
+      email: "rajesh.patel@physicotech.in",
+      phone: "+91 98765 43211"
     },
     {
-      name: "Dr. Emily Chen",
+      name: "Dr. Aarti Desai",
       role: "Orthopedic Therapy Specialist",
-      email: "emily.chen@physicotech.com",
-      phone: "+1 (555) 345-6789"
+      email: "aarti.desai@physicotech.in",
+      phone: "+91 98765 43212"
     },
     {
-      name: "Dr. David Wilson",
+      name: "Dr. Vikram Singh",
       role: "Geriatric Care Expert",
-      email: "david.wilson@physicotech.com",
-      phone: "+1 (555) 456-7890"
+      email: "vikram.singh@physicotech.in",
+      phone: "+91 98765 43213"
     }
   ];
 
@@ -196,7 +196,7 @@ const Contact = () => {
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      placeholder="John Doe"
+                      placeholder="Rahul Sharma"
                       required
                     />
                   </div>
@@ -208,7 +208,7 @@ const Contact = () => {
                       type="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      placeholder="john@example.com"
+                      placeholder="rahul@example.com"
                       required
                     />
                   </div>
@@ -219,7 +219,7 @@ const Contact = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      placeholder="(123) 456-7890"
+                      placeholder="9876543210"
                       required
                     />
                   </div>
@@ -327,14 +327,14 @@ const Contact = () => {
           <div className="bg-white rounded-xl shadow-md overflow-hidden">
             <div className="aspect-[2/1] w-full">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11111.11111111111!2d-73.98!3d40.75!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQ1JzAwLjAiTiA3M8KwNTgnNDguMCJX!5e0!3m2!1sen!2sus!4v1600000000000!5m2!1sen!2sus"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d235013.7107530793!2d72.41492855!3d23.0201119!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sAhmedabad%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1662827000000!5m2!1sen!2sin"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="PhysicoTech Location"
+                title="PhysicoTech Location in Ahmedabad"
               ></iframe>
             </div>
           </div>
