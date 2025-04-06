@@ -19,7 +19,7 @@ const Services = () => {
   const specialties = [
     {
       id: "sports",
-      icon: <Dumbbell className="h-6 w-6" />,
+      icon: <Dumbbell className="h-5 w-5" />,
       title: "Sports Rehabilitation",
       description: "Specialized therapy for athletes and active individuals focusing on recovery from sports injuries and performance enhancement.",
       benefits: [
@@ -184,28 +184,34 @@ const Services = () => {
         </div>
 
         <Tabs defaultValue="sports" className="mb-16">
-          <TabsList className="flex overflow-x-auto p-1 space-x-2 bg-transparent">
-            {specialties.map((specialty) => (
-              <TabsTrigger 
-                key={specialty.id} 
-                value={specialty.id}
-                className="py-2 px-4 rounded-lg data-[state=active]:bg-physicotech-600 data-[state=active]:text-white"
-              >
-                <div className="flex items-center">
-                  <span className="mr-2">{specialty.icon}</span>
-                  <span>{specialty.title}</span>
-                </div>
-              </TabsTrigger>
-            ))}
-          </TabsList>
+          <div className="flex justify-center mb-8">
+            <div className="relative w-full max-w-4xl overflow-hidden">
+              <div className="overflow-x-auto pb-4 scrollbar-none">
+                <TabsList className="w-max min-w-full flex p-1.5 bg-gray-100 rounded-xl gap-1.5">
+                  {specialties.map((specialty) => (
+                    <TabsTrigger 
+                      key={specialty.id} 
+                      value={specialty.id}
+                      className="flex-1 min-w-max px-5 py-3 rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-physicotech-600 transition-all duration-300"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="flex-shrink-0">{specialty.icon}</span>
+                        <span className="whitespace-nowrap">{specialty.title}</span>
+                      </div>
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </div>
+            </div>
+          </div>
 
           {specialties.map((specialty) => (
-            <TabsContent key={specialty.id} value={specialty.id} className="mt-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <TabsContent key={specialty.id} value={specialty.id} className="mt-10 animate-fade-in">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
                 <div>
                   <div className="mb-6">
-                    <div className="w-14 h-14 rounded-lg bg-physicotech-100 flex items-center justify-center text-physicotech-600 mb-4">
-                      {specialty.icon}
+                    <div className="w-16 h-16 rounded-lg bg-physicotech-50 flex items-center justify-center text-physicotech-600 mb-5 shadow-sm">
+                      <div className="w-8 h-8">{specialty.icon}</div>
                     </div>
                     <h2 className="text-2xl md:text-3xl font-bold mb-4">{specialty.title}</h2>
                     <p className="text-lg text-gray-700 mb-6">{specialty.description}</p>
@@ -213,7 +219,7 @@ const Services = () => {
 
                   <div>
                     <h3 className="text-xl font-semibold mb-4">Benefits</h3>
-                    <ul className="space-y-3 mb-6">
+                    <ul className="space-y-3 mb-8">
                       {specialty.benefits.map((benefit, index) => (
                         <li key={index} className="flex items-start">
                           <CheckCircle className="h-5 w-5 text-green-500 mr-3 flex-shrink-0 mt-0.5" />
@@ -223,34 +229,38 @@ const Services = () => {
                     </ul>
                   </div>
 
-                  <div className="mt-6 flex space-x-4">
-                    <Button 
-                      asChild
-                      className="bg-physicotech-600 hover:bg-physicotech-700"
-                    >
-                      <Link to="/booking">Book a Session</Link>
-                    </Button>
-                    <Button 
-                      asChild
-                      variant="outline" 
-                      className="border-physicotech-600 text-physicotech-600 hover:bg-physicotech-50"
-                    >
-                      <Link to="/book-demo">Free Consultation</Link>
-                    </Button>
+                  <div className="mt-8">
+                    <div className="flex flex-wrap gap-4">
+                      <Button 
+                        asChild
+                        size="lg"
+                        className="bg-physicotech-600 hover:bg-physicotech-700 transition-colors"
+                      >
+                        <Link to="/booking">Book a Session</Link>
+                      </Button>
+                      <Button 
+                        asChild
+                        variant="outline" 
+                        size="lg"
+                        className="border-physicotech-600 text-physicotech-600 hover:bg-physicotech-50"
+                      >
+                        <Link to="/book-demo">Free Consultation</Link>
+                      </Button>
+                    </div>
                   </div>
                 </div>
 
-                <div className="relative">
-                  <div className="overflow-hidden rounded-xl shadow-lg">
+                <div className="relative rounded-xl shadow-lg">
+                  <div className="overflow-hidden rounded-xl">
                     <img 
                       src={specialty.image} 
                       alt={specialty.title} 
-                      className="w-full h-auto object-cover aspect-video"
+                      className="w-full h-auto object-cover aspect-[4/3]"
                     />
                   </div>
                   
                   {testimonials.filter(t => t.specialty === specialty.id).map((testimonial, index) => (
-                    <div key={index} className="absolute bottom-4 right-4 left-4 bg-white/90 backdrop-blur-sm p-4 rounded-lg shadow-lg">
+                    <div key={index} className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-sm p-5 rounded-lg shadow-lg">
                       <div className="flex items-start">
                         <MessageSquare className="h-5 w-5 text-physicotech-500 mr-3 flex-shrink-0 mt-1" />
                         <div>
@@ -286,7 +296,7 @@ const Services = () => {
           </div>
         </div>
 
-        <div className="bg-gray-50 rounded-xl p-8 lg:p-12">
+        <div className="bg-gray-50 rounded-xl p-8 lg:p-12 shadow-sm">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div>
               <h2 className="text-2xl md:text-3xl font-bold mb-4">Your Personalized Care Journey</h2>
@@ -330,6 +340,7 @@ const Services = () => {
               <div className="mt-8">
                 <Button 
                   asChild
+                  size="lg"
                   className="bg-physicotech-600 hover:bg-physicotech-700"
                 >
                   <Link to="/booking">

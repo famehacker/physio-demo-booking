@@ -147,23 +147,23 @@ const Gallery = () => {
 
         <Tabs defaultValue="facilities" className="mb-12">
           <div className="flex justify-center mb-8">
-            <TabsList className="grid grid-cols-3 w-full max-w-md">
-              <TabsTrigger value="facilities" className="text-base py-3">
+            <TabsList className="bg-gray-100 rounded-xl p-1.5">
+              <TabsTrigger value="facilities" className="rounded-lg py-3 px-6 data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-physicotech-600">
                 <Image className="mr-2 h-4 w-4" />
                 Facilities
               </TabsTrigger>
-              <TabsTrigger value="treatments" className="text-base py-3">
+              <TabsTrigger value="treatments" className="rounded-lg py-3 px-6 data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-physicotech-600">
                 <Play className="mr-2 h-4 w-4" />
                 Treatments
               </TabsTrigger>
-              <TabsTrigger value="team" className="text-base py-3">
+              <TabsTrigger value="team" className="rounded-lg py-3 px-6 data-[state=active]:bg-white data-[state=active]:shadow-md data-[state=active]:text-physicotech-600">
                 <Info className="mr-2 h-4 w-4" />
                 Our Team
               </TabsTrigger>
             </TabsList>
           </div>
 
-          <TabsContent value="facilities">
+          <TabsContent value="facilities" className="animate-fade-in">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {galleries.facilities.map((image) => (
                 <div 
@@ -188,7 +188,7 @@ const Gallery = () => {
             </div>
           </TabsContent>
 
-          <TabsContent value="treatments">
+          <TabsContent value="treatments" className="animate-fade-in">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {galleries.treatments.map((image) => (
                 <div 
@@ -213,7 +213,7 @@ const Gallery = () => {
             </div>
           </TabsContent>
 
-          <TabsContent value="team">
+          <TabsContent value="team" className="animate-fade-in">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {galleries.team.map((image) => (
                 <div 
@@ -245,7 +245,7 @@ const Gallery = () => {
             <p className="text-gray-700 mb-6">
               Photos can only show so much. Visit our state-of-the-art facility to see how we can help you on your journey to recovery and better health.
             </p>
-            <div className="flex justify-center gap-4">
+            <div className="flex flex-wrap justify-center gap-4">
               <Button 
                 asChild
                 className="bg-physicotech-600 hover:bg-physicotech-700"
