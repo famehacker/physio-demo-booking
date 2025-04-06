@@ -1,8 +1,25 @@
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+/* Add transitions to all interactive elements */
+a, button, input, textarea, select, 
+.card, .feature-card, .image-card, .testimonial-card {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Hover effects for links */
+a:hover {
+  opacity: 0.85;
+}
+
+/* Button hover animations */
+button:hover {
+  transform: translateY(-2px);
 }
 
 .logo {
@@ -35,8 +52,35 @@
 
 .card {
   padding: 2em;
+  transition: all 0.3s ease-in-out;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
 .read-the-docs {
   color: #888;
+}
+
+/* Page transition animations */
+.page-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 400ms, transform 400ms;
+}
+
+.page-exit {
+  opacity: 1;
+}
+
+.page-exit-active {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 400ms, transform 400ms;
 }
