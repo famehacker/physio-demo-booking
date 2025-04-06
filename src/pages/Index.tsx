@@ -139,7 +139,7 @@ const Index = () => {
               <div className="relative w-full h-[400px] bg-white rounded-2xl shadow-xl overflow-hidden">
                 <img
                   src="https://images.unsplash.com/photo-1588286840104-8957b019727f?auto=format&fit=crop&q=80"
-                  alt="Physiotherapy session"
+                  alt="Physiotherapist working with patient"
                   className="w-full h-full object-cover"
                 />
               </div>
