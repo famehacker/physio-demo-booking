@@ -25,11 +25,13 @@ import {
   Mail, 
   Phone, 
   CheckCircle,
-  Calendar as CalendarIcon
+  Calendar as CalendarIcon,
+  Loader2
 } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { TimePicker } from "@/components/ui/time-picker";
+import { createBooking } from "@/services/bookingService";
 
 const BookDemo = () => {
   const [date, setDate] = useState<Date | undefined>(undefined);
@@ -43,6 +45,7 @@ const BookDemo = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [bookingId, setBookingId] = useState<string>("");
   const { toast } = useToast();
   
   const serviceTypes = [
@@ -74,7 +77,7 @@ const BookDemo = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
@@ -105,16 +108,39 @@ const BookDemo = () => {
       return;
     }
 
-    // Simulate form submission
-    setTimeout(() => {
-      console.log({ ...formData, date });
-      setIsSubmitting(false);
-      setIsSubmitted(true);
+    try {
+      // Save booking to Supabase and send SMS notification
+      const bookingData = {
+        ...formData,
+        date: date.toISOString(),
+      };
+      
+      const result = await createBooking(bookingData);
+      
+      if (result.success) {
+        setIsSubmitted(true);
+        setBookingId(result.bookingId || "");
+        toast({
+          title: "Demo booking successful!",
+          description: "We've received your request and sent a confirmation SMS.",
+        });
+      } else {
+        toast({
+          title: "Booking failed",
+          description: "There was an error processing your booking. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Error during booking:", error);
       toast({
-        title: "Demo booking successful!",
-        description: "We've received your request and will contact you shortly.",
+        title: "Booking failed",
+        description: "There was an error processing your booking. Please try again.",
+        variant: "destructive",
       });
-    }, 1500);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isSubmitted) {
@@ -129,7 +155,7 @@ const BookDemo = () => {
               Your Demo Session is Booked!
             </h1>
             <p className="text-lg text-gray-700 mb-8">
-              Thank you for scheduling a demo session with PhysicoTech. We've sent a confirmation to your email with all the details.
+              Thank you for scheduling a demo session with PhysicoTech. We've sent a confirmation to your email and SMS to your phone with all the details.
             </p>
             <div className="bg-gray-50 rounded-xl p-6 mb-8">
               <div className="flex items-center justify-center mb-4">
@@ -137,6 +163,10 @@ const BookDemo = () => {
                 <span className="font-medium">Booking Details</span>
               </div>
               <div className="grid grid-cols-2 gap-4 text-left">
+                <div>
+                  <p className="text-sm text-gray-500">Booking ID</p>
+                  <p className="font-medium">{bookingId}</p>
+                </div>
                 <div>
                   <p className="text-sm text-gray-500">Date</p>
                   <p className="font-medium">{date?.toLocaleDateString()}</p>
