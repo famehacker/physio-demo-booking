@@ -32,6 +32,21 @@ button:hover {
   scrollbar-width: none;  /* Firefox */
 }
 
+/* Add vertical tabs transition */
+.vertical-tabs {
+  display: flex;
+  flex-direction: row;
+}
+
+.vertical-tabs-list {
+  flex-shrink: 0;
+}
+
+.vertical-tabs-content {
+  flex-grow: 1;
+  transition: all 0.4s ease-in-out;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
