@@ -15,10 +15,20 @@ export const createBooking = async (bookingData: Booking): Promise<{ success: bo
       createdAt: new Date().toISOString(),
     };
     
-    // Insert booking into Supabase
+    // Insert booking into Supabase - using proper casing for column names
     const { data, error } = await supabase
       .from('bookings')
-      .insert(newBooking)
+      .insert({
+        bookingid: bookingId,
+        name: bookingData.name,
+        email: bookingData.email, 
+        phone: bookingData.phone,
+        date: bookingData.date,
+        preferredtime: bookingData.preferredTime,
+        servicetype: bookingData.serviceType,
+        concerns: bookingData.concerns,
+        createdat: new Date().toISOString()
+      })
       .select()
       .single();
     
