@@ -1,8 +1,10 @@
-
-// This file needs to be deployed to your Supabase project as an Edge Function
-
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+// Twilio base64-encoded auth header
+const twilioAuth = `Basic ${btoa(
+  `${Deno.env.get("TWILIO_ACCOUNT_SID")}:${Deno.env.get("TWILIO_AUTH_TOKEN")}`
+)}`;
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -10,7 +12,6 @@ const corsHeaders = {
 };
 
 serve(async (req) => {
-  // Handle CORS
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
   }
@@ -27,18 +28,42 @@ serve(async (req) => {
         }
       );
     }
-    
-    // For now, we'll just log the message and simulate success
-    console.log(`SMS would be sent to ${phone}: ${message}`);
-    
-    // In a real implementation, you would integrate with an SMS service
-    // like Twilio, but we'll simulate success for this demo
-    
+
+    // Send SMS through Twilio
+    const twilioResponse = await fetch(
+      `https://api.twilio.com/2010-04-01/Accounts/${Deno.env.get("TWILIO_ACCOUNT_SID")}/Messages.json`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: twilioAuth,
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          From: Deno.env.get("TWILIO_PHONE_NUMBER")!,
+          To: phone,
+          Body: message,
+        }),
+      }
+    );
+
+    const twilioData = await twilioResponse.json();
+
+    if (!twilioResponse.ok) {
+      console.error("Twilio Error:", twilioData);
+      return new Response(
+        JSON.stringify({ error: "Failed to send SMS", details: twilioData }),
+        {
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
+
     return new Response(
       JSON.stringify({ 
         success: true, 
-        message: "SMS simulated successfully", 
-        data: { phone, messageLength: message.length } 
+        message: "SMS sent successfully via Twilio", 
+        data: twilioData 
       }),
       {
         status: 200,
@@ -47,7 +72,6 @@ serve(async (req) => {
     );
   } catch (error) {
     console.error("Error processing request:", error);
-    
     return new Response(
       JSON.stringify({ error: "Internal server error", details: error.message }),
       {
