@@ -386,23 +386,24 @@ const BookDemo = () => {
                       </div>
                       
                       <div className="grid grid-cols-2 gap-3">
-                        {timeSlots.map((slot) => (
-                          <Button
-                            key={slot.time}
-                            type="button"
-                            variant="outline"
-                            className={cn(
-                              "transition-all duration-300 rounded-md border border-gray-200 hover:border-red-300",
-                              formData.preferredTime === slot.time
-                                ? "border-red-300 font-medium"
-                                : ""
-                            )}
-                            onClick={() => handleTimeSelect(slot.time)}
-                          >
-                            <span className="text-red-500">{slot.time}</span>
-                          </Button>
-                        ))}
-                      </div>
+  {timeSlots.map((slot) => (
+    <Button
+      key={slot.time}
+      type="button"
+      variant="outline"
+      className={cn(
+        "transition-all duration-300 rounded-md border border-gray-200 hover:border-blue-300",
+        formData.preferredTime === slot.time
+          ? "border-blue-300 font-medium"
+          : ""
+      )}
+      onClick={() => handleTimeSelect(slot.time)}
+    >
+      <span className="text-blue-500">{slot.time}</span>
+    </Button>
+  ))}
+</div>
+
                     </div>
                   </div>
 
