@@ -1,13 +1,9 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-// Get environment variables or provide fallback values
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+// Use the same Supabase URL and key as defined in the integration
+const SUPABASE_URL = "https://hyoeohtvittvchricnyp.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5b2VvaHR2aXR0dmNocmljbnlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMwNTkxMDEsImV4cCI6MjA1ODYzNTEwMX0.B2XooUzTMyhwK-2J3txN5Ld3NAcXVTLyspzAJ5HSOTU";
 
-// Check if we have the required values
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('Missing Supabase URL or Anonymous Key. Make sure environment variables are set correctly.');
-}
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Create and export the Supabase client
+export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);

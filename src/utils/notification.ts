@@ -1,5 +1,5 @@
 
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 
 export const sendSMSNotification = async (phone: string, name: string, bookingId: string, date: string, time: string) => {
   try {
