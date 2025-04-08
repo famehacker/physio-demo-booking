@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -30,7 +29,6 @@ import {
 } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
-import { TimePicker } from "@/components/ui/time-picker";
 import { createBooking } from "@/services/bookingService";
 
 const BookDemo = () => {
@@ -57,6 +55,25 @@ const BookDemo = () => {
     "Neurological Conditions",
   ];
 
+  const timeSlots = [
+    { time: "6:00 AM", period: "AM" },
+    { time: "6:15 AM", period: "AM" },
+    { time: "6:30 AM", period: "AM" },
+    { time: "6:45 AM", period: "AM" },
+    { time: "7:00 AM", period: "AM" },
+    { time: "7:15 AM", period: "AM" },
+    { time: "7:30 AM", period: "AM" },
+    { time: "7:45 AM", period: "AM" },
+    { time: "6:00 PM", period: "PM" },
+    { time: "6:15 PM", period: "PM" },
+    { time: "6:30 PM", period: "PM" },
+    { time: "6:45 PM", period: "PM" },
+    { time: "7:00 PM", period: "PM" },
+    { time: "7:15 PM", period: "PM" },
+    { time: "7:30 PM", period: "PM" },
+    { time: "7:45 PM", period: "PM" },
+  ];
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -75,6 +92,13 @@ const BookDemo = () => {
         preferredTime: ""
       }));
     }
+  };
+
+  const handleTimeSelect = (time: string) => {
+    setFormData(prev => ({
+      ...prev,
+      preferredTime: time
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -319,56 +343,64 @@ const BookDemo = () => {
                   </div>
 
                   <div className="mb-6">
-                    <Label className="mb-2 block">Date & Time Selection</Label>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <div className="flex items-center mb-4">
-                          <CalendarCheck className="mr-2 h-5 w-5 text-physicotech-600" />
-                          <span className="font-medium">Select Date</span>
-                        </div>
-                        <div className="flex flex-col space-y-2">
-                          <Popover>
-                            <PopoverTrigger asChild>
-                              <Button
-                                variant={"outline"}
-                                className={cn(
-                                  "w-full pl-3 text-left font-normal",
-                                  !date && "text-muted-foreground"
-                                )}
-                              >
-                                {date ? (
-                                  format(date, "PPP")
-                                ) : (
-                                  <span>Pick a date</span>
-                                )}
-                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                              </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0" align="start">
-                              <Calendar
-                                mode="single"
-                                selected={date}
-                                onSelect={handleDateChange}
-                                disabled={{ before: new Date() }}
-                                initialFocus
-                                className={cn("p-3 pointer-events-auto")}
-                              />
-                            </PopoverContent>
-                          </Popover>
-                        </div>
+                    <div className="flex items-center mb-4">
+                      <CalendarCheck className="mr-2 h-5 w-5 text-physicotech-600" />
+                      <span className="font-medium">Select Date</span>
+                    </div>
+                    <div className="mb-6">
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-full pl-3 text-left font-normal",
+                              !date && "text-muted-foreground"
+                            )}
+                          >
+                            {date ? (
+                              format(date, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={date}
+                            onSelect={handleDateChange}
+                            disabled={{ before: new Date() }}
+                            initialFocus
+                            className={cn("p-3 pointer-events-auto")}
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+
+                    <div className="mb-6">
+                      <div className="flex items-center mb-4">
+                        <Clock className="mr-2 h-5 w-5 text-physicotech-600" />
+                        <span className="font-medium">Select Time</span>
                       </div>
                       
-                      <div>
-                        <div className="flex items-center mb-4">
-                          <Clock className="mr-2 h-5 w-5 text-physicotech-600" />
-                          <span className="font-medium">Preferred Time</span>
-                        </div>
-                        <TimePicker 
-                          value={formData.preferredTime}
-                          onChange={(time) => handleSelectChange("preferredTime", time)}
-                          use12Hours
-                          className="w-full"
-                        />
+                      <div className="grid grid-cols-2 gap-3">
+                        {timeSlots.map((slot) => (
+                          <Button
+                            key={slot.time}
+                            type="button"
+                            variant="outline"
+                            className={cn(
+                              "transition-all duration-300 rounded-md hover:bg-physicotech-50 justify-center py-3",
+                              formData.preferredTime === slot.time
+                                ? "bg-physicotech-50 border-physicotech-500 text-physicotech-600 font-medium"
+                                : "border-gray-200"
+                            )}
+                            onClick={() => handleTimeSelect(slot.time)}
+                          >
+                            {slot.time}
+                          </Button>
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -392,7 +424,14 @@ const BookDemo = () => {
                     className="bg-physicotech-600 hover:bg-physicotech-700 w-full"
                     disabled={isSubmitting}
                   >
-                    {isSubmitting ? "Booking..." : "Book Your Free Demo"}
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Booking...
+                      </>
+                    ) : (
+                      "Book Your Free Demo"
+                    )}
                   </Button>
                 </form>
               </div>

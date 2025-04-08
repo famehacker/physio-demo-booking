@@ -47,19 +47,6 @@ export function TimePicker({
     setIsOpen(false);
   };
 
-  // Reset value when component mounts or updates
-  useEffect(() => {
-    if (!value && filteredHours.length > 0 && minutes.length > 0) {
-      const defaultHour = filteredHours[0];
-      const defaultMinute = minutes[0];
-      const defaultPeriod = use12Hours ? "AM" : undefined;
-      
-      // Don't auto-select a time on initial render
-      // Only do this if you want a default time
-      // handleSelectTime(defaultHour, defaultMinute, defaultPeriod);
-    }
-  }, []);
-
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
@@ -75,58 +62,67 @@ export function TimePicker({
           {value || "Select time"}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="start">
-        <div className="p-4 overflow-auto max-h-[300px]">
-          <div className="flex flex-col">
-            {use12Hours ? (
-              <div className="grid grid-cols-4 gap-2">
+      <PopoverContent className="w-auto p-4 bg-white" align="start">
+        <div className="grid grid-cols-2 gap-3 max-h-[300px] overflow-auto">
+          {use12Hours ? (
+            <>
+              {/* AM Times */}
+              <div className="space-y-2">
                 {filteredHours.map((hour) => (
-                  <div key={hour} className="space-y-1">
-                    {minutes.map((minute) => (
-                      <React.Fragment key={`${hour}:${minute}`}>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="w-full"
-                          onClick={() => handleSelectTime(hour, minute, "AM")}
-                        >
-                          {hour}:{minute} AM
-                        </Button>
-                        {hour !== 12 && (
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="w-full"
-                            onClick={() => handleSelectTime(hour, minute, "PM")}
-                          >
-                            {hour}:{minute} PM
-                          </Button>
-                        )}
-                      </React.Fragment>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="grid grid-cols-4 gap-2">
-                {filteredHours.map((hour) => (
-                  <div key={hour} className="space-y-1">
+                  <React.Fragment key={`am-${hour}`}>
                     {minutes.map((minute) => (
                       <Button
-                        key={`${hour}:${minute}`}
+                        key={`${hour}:${minute}-am`}
                         variant="outline"
                         size="sm"
-                        className="w-full"
-                        onClick={() => handleSelectTime(hour, minute)}
+                        className="w-full hover:bg-physicotech-100 hover:text-physicotech-700 border border-gray-200 transition-all duration-200 hover:border-physicotech-300 rounded-full"
+                        onClick={() => handleSelectTime(hour, minute, "AM")}
                       >
-                        {hour.toString().padStart(2, '0')}:{minute}
+                        {hour}:{minute} AM
                       </Button>
                     ))}
-                  </div>
+                  </React.Fragment>
                 ))}
               </div>
-            )}
-          </div>
+              
+              {/* PM Times */}
+              <div className="space-y-2">
+                {filteredHours.filter(hour => hour !== 12).map((hour) => (
+                  <React.Fragment key={`pm-${hour}`}>
+                    {minutes.map((minute) => (
+                      <Button
+                        key={`${hour}:${minute}-pm`}
+                        variant="outline"
+                        size="sm"
+                        className="w-full hover:bg-physicotech-100 hover:text-physicotech-700 border border-gray-200 transition-all duration-200 hover:border-physicotech-300 rounded-full"
+                        onClick={() => handleSelectTime(hour, minute, "PM")}
+                      >
+                        {hour}:{minute} PM
+                      </Button>
+                    ))}
+                  </React.Fragment>
+                ))}
+              </div>
+            </>
+          ) : (
+            <div className="grid grid-cols-2 gap-2">
+              {filteredHours.map((hour) => (
+                <div key={hour} className="space-y-1">
+                  {minutes.map((minute) => (
+                    <Button
+                      key={`${hour}:${minute}`}
+                      variant="outline"
+                      size="sm"
+                      className="w-full hover:bg-physicotech-100 hover:text-physicotech-700 border border-gray-200 transition-all duration-200 hover:border-physicotech-300 rounded-full"
+                      onClick={() => handleSelectTime(hour, minute)}
+                    >
+                      {hour.toString().padStart(2, '0')}:{minute}
+                    </Button>
+                  ))}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </PopoverContent>
     </Popover>
