@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -353,7 +354,7 @@ const BookDemo = () => {
                           <Button
                             variant={"outline"}
                             className={cn(
-                              "w-full pl-3 text-left font-normal",
+                              "w-full pl-3 text-left font-normal border border-red-300",
                               !date && "text-muted-foreground"
                             )}
                           >
@@ -391,14 +392,14 @@ const BookDemo = () => {
                             type="button"
                             variant="outline"
                             className={cn(
-                              "transition-all duration-300 rounded-md hover:bg-physicotech-50 justify-center py-3",
+                              "transition-all duration-300 rounded-md border border-gray-200 hover:border-red-300",
                               formData.preferredTime === slot.time
-                                ? "bg-physicotech-50 border-physicotech-500 text-physicotech-600 font-medium"
-                                : "border-gray-200"
+                                ? "border-red-300 font-medium"
+                                : ""
                             )}
                             onClick={() => handleTimeSelect(slot.time)}
                           >
-                            {slot.time}
+                            <span className="text-red-500">{slot.time}</span>
                           </Button>
                         ))}
                       </div>
@@ -416,6 +417,7 @@ const BookDemo = () => {
                       onChange={handleInputChange}
                       placeholder="Tell us about your condition or any questions you have..."
                       rows={4}
+                      className="border border-gray-300"
                     />
                   </div>
 
