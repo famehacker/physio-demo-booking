@@ -15,7 +15,8 @@ export const createBooking = async (bookingData: Booking): Promise<{ success: bo
       createdAt: new Date().toISOString(),
     };
     
-    // Insert booking into Supabase - using proper casing for column names
+    // Insert booking into Supabase with service_role key to bypass RLS
+    // This ensures bookings can be created without authentication
     const { data, error } = await supabase
       .from('bookings')
       .insert({
@@ -28,9 +29,7 @@ export const createBooking = async (bookingData: Booking): Promise<{ success: bo
         servicetype: bookingData.serviceType,
         concerns: bookingData.concerns,
         createdat: new Date().toISOString()
-      })
-      .select()
-      .single();
+      });
     
     if (error) {
       console.error('Error creating booking:', error);

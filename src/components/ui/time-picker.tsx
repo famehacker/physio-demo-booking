@@ -53,13 +53,13 @@ export function TimePicker({
         <Button
           variant="outline"
           className={cn(
-            "w-full justify-start text-left font-normal border border-red-300", 
+            "w-full justify-start text-left font-normal", 
             !value && "text-muted-foreground",
             className
           )}
         >
           <Clock className="mr-2 h-4 w-4" />
-          {value ? <span className="text-red-500">{value}</span> : "Select time"}
+          {value ? value : "Select time"}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-4 bg-white" align="start">
@@ -76,12 +76,12 @@ export function TimePicker({
                         variant="outline"
                         size="sm"
                         className={cn(
-                          "w-full hover:border-red-300 border border-gray-200 transition-all duration-200 rounded-md",
-                          value === `${hour}:${minute} AM` ? "border-red-300" : ""
+                          "w-full hover:bg-gray-50 transition-all duration-200 rounded-md",
+                          value === `${hour}:${minute} AM` ? "border-physicotech-600" : ""
                         )}
                         onClick={() => handleSelectTime(hour, minute, "AM")}
                       >
-                        <span className="text-red-500">{hour}:{minute} AM</span>
+                        {hour}:{minute} AM
                       </Button>
                     ))}
                   </React.Fragment>
@@ -98,12 +98,12 @@ export function TimePicker({
                         variant="outline"
                         size="sm"
                         className={cn(
-                          "w-full hover:border-red-300 border border-gray-200 transition-all duration-200 rounded-md",
-                          value === `${hour}:${minute} PM` ? "border-red-300" : ""
+                          "w-full hover:bg-gray-50 transition-all duration-200 rounded-md",
+                          value === `${hour}:${minute} PM` ? "border-physicotech-600" : ""
                         )}
                         onClick={() => handleSelectTime(hour, minute, "PM")}
                       >
-                        <span className="text-red-500">{hour}:{minute} PM</span>
+                        {hour}:{minute} PM
                       </Button>
                     ))}
                   </React.Fragment>
@@ -120,12 +120,12 @@ export function TimePicker({
                       variant="outline"
                       size="sm"
                       className={cn(
-                        "w-full hover:border-red-300 border border-gray-200 transition-all duration-200 rounded-md",
-                        value === `${hour.toString().padStart(2, '0')}:${minute}` ? "border-red-300" : ""
+                        "w-full hover:bg-gray-50 transition-all duration-200 rounded-md",
+                        value === `${hour.toString().padStart(2, '0')}:${minute}` ? "border-physicotech-600" : ""
                       )}
                       onClick={() => handleSelectTime(hour, minute)}
                     >
-                      <span className="text-red-500">{hour.toString().padStart(2, '0')}:{minute}</span>
+                      {hour.toString().padStart(2, '0')}:{minute}
                     </Button>
                   ))}
                 </div>
