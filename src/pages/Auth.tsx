@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,9 +10,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Loader2, Mail, Lock, UserPlus, LogIn } from "lucide-react";
 import { z } from "zod";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Auth = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("login");
@@ -21,6 +23,13 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  // Redirect to home if user is already logged in
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   // Validation schemas
   const loginSchema = z.object({
@@ -52,7 +61,7 @@ const Auth = () => {
       if (error) throw error;
 
       toast.success("Login successful!");
-      navigate("/");
+      navigate("/"); // Redirect to home page after successful login
     } catch (err: any) {
       if (err instanceof z.ZodError) {
         setError(err.errors[0].message);
@@ -101,6 +110,11 @@ const Auth = () => {
       setIsLoading(false);
     }
   };
+
+  // If user is already logged in, don't render anything (the useEffect will handle redirection)
+  if (user) {
+    return null;
+  }
 
   return (
     <div className="container max-w-md mx-auto px-4 py-24">
