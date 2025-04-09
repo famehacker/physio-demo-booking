@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { 
@@ -13,6 +12,7 @@ import {
   CheckCircle
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Index = () => {
   const testimonials = [
@@ -87,6 +87,13 @@ const Index = () => {
     }
   ];
 
+  const clientProfiles = [
+    "/lovable-uploads/61005af7-a07a-43f7-aacf-f614e206b82f.png",
+    "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=150",
+    "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&q=80&w=150",
+    "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&q=80&w=150"
+  ];
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -124,14 +131,13 @@ const Index = () => {
               </div>
               <div className="flex items-center mt-8 space-x-4">
                 <div className="flex -space-x-2">
-                  {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="w-10 h-10 rounded-full bg-white border-2 border-white overflow-hidden">
-                      <img 
-                        src={`/lovable-uploads/d3c2f86d-7514-448e-a9b4-ffc08db57d36.png`} 
-                        alt="Client profile" 
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
+                  {clientProfiles.map((profile, i) => (
+                    <Avatar key={i} className="w-10 h-10 border-2 border-white">
+                      <AvatarImage src={profile} alt={`Client profile ${i+1}`} />
+                      <AvatarFallback className="bg-physicotech-200">
+                        {i+1}
+                      </AvatarFallback>
+                    </Avatar>
                   ))}
                 </div>
                 <div className="text-sm text-gray-600">
