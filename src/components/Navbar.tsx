@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { UserMenu } from "./UserMenu";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,13 +58,16 @@ const Navbar = () => {
             ))}
           </div>
 
-          <div className="hidden md:block">
+          {/* User Menu (Desktop) */}
+          <div className="hidden md:flex items-center gap-4">
             <Button
               asChild
-              className="bg-physicotech-600 hover:bg-physicotech-700"
+              variant="outline"
+              className="border-physicotech-600 text-physicotech-600 hover:bg-physicotech-50"
             >
               <Link to="/booking">Book Appointment</Link>
             </Button>
+            <UserMenu />
           </div>
 
           {/* Mobile Menu Button */}
@@ -98,14 +102,20 @@ const Navbar = () => {
                   {link.name}
                 </Link>
               ))}
-              <Button
-                asChild
-                className="mt-2 bg-physicotech-600 hover:bg-physicotech-700"
+              <Link 
+                to="/booking" 
+                className="mt-2 bg-physicotech-600 text-white py-2 px-4 rounded-md hover:bg-physicotech-700 transition-colors text-center"
+                onClick={() => setIsOpen(false)}
               >
-                <Link to="/booking" onClick={() => setIsOpen(false)}>
-                  Book Appointment
-                </Link>
-              </Button>
+                Book Appointment
+              </Link>
+              <Link 
+                to="/auth" 
+                className="bg-white border border-physicotech-600 text-physicotech-600 py-2 px-4 rounded-md hover:bg-physicotech-50 transition-colors text-center"
+                onClick={() => setIsOpen(false)}
+              >
+                Login / Register
+              </Link>
             </div>
           </div>
         )}
