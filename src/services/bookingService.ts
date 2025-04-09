@@ -1,7 +1,7 @@
 
 import { supabase } from '@/integrations/supabase/client';
 import { Booking } from '@/types/booking';
-import { sendSMSNotification } from '@/utils/notification';
+import { sendSMSNotification, sendBookingConfirmationSMS } from '@/utils/notification';
 
 export const createBooking = async (bookingData: Booking): Promise<{ success: boolean; data?: any; error?: any; bookingId?: string }> => {
   try {
@@ -36,13 +36,17 @@ export const createBooking = async (bookingData: Booking): Promise<{ success: bo
       return { success: false, error };
     }
     
-    // Send SMS notification
-    await sendSMSNotification(
+    // Format the date for display
+    const formattedDate = new Date(bookingData.date).toLocaleDateString();
+    
+    // Send SMS notification using the new confirmaton function
+    await sendBookingConfirmationSMS(
       bookingData.phone,
       bookingData.name,
       bookingId,
-      new Date(bookingData.date).toLocaleDateString(),
-      bookingData.preferredTime
+      formattedDate,
+      bookingData.preferredTime,
+      bookingData.serviceType
     );
     
     return { 

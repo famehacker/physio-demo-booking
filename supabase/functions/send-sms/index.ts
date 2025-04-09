@@ -1,3 +1,4 @@
+
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
@@ -29,6 +30,9 @@ serve(async (req) => {
       );
     }
 
+    // Log the incoming request
+    console.log(`Sending SMS to ${phone} with message: ${message}`);
+
     // Send SMS through Twilio
     const twilioResponse = await fetch(
       `https://api.twilio.com/2010-04-01/Accounts/${Deno.env.get("TWILIO_ACCOUNT_SID")}/Messages.json`,
@@ -59,6 +63,7 @@ serve(async (req) => {
       );
     }
 
+    console.log("SMS sent successfully:", twilioData.sid);
     return new Response(
       JSON.stringify({ 
         success: true, 
