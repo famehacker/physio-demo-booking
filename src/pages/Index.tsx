@@ -125,8 +125,12 @@ const Index = () => {
               <div className="flex items-center mt-8 space-x-4">
                 <div className="flex -space-x-2">
                   {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="w-10 h-10 rounded-full bg-gray-200 border-2 border-white overflow-hidden">
-                      <div className="w-full h-full bg-physicotech-200"></div>
+                    <div key={i} className="w-10 h-10 rounded-full bg-white border-2 border-white overflow-hidden">
+                      <img 
+                        src={`/lovable-uploads/d3c2f86d-7514-448e-a9b4-ffc08db57d36.png`} 
+                        alt="Client profile" 
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                   ))}
                 </div>
@@ -138,7 +142,7 @@ const Index = () => {
             <div className="relative">
               <div className="relative w-full h-[400px] bg-white rounded-2xl shadow-xl overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1588286840104-8957b019727f?auto=format&fit=crop&q=80"
+                  src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80"
                   alt="Physiotherapist working with patient"
                   className="w-full h-full object-cover"
                 />
