@@ -17,6 +17,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { useToast } from "@/hooks/use-toast";
 import { 
   CalendarCheck, 
@@ -26,11 +34,13 @@ import {
   Phone, 
   CheckCircle,
   Calendar as CalendarIcon,
-  Loader2
+  Loader2,
+  Activity
 } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { createBooking } from "@/services/bookingService";
+import BodyPartSelector, { BodyPart } from "@/components/BodyPartSelector";
 
 const BookDemo = () => {
   const [date, setDate] = useState<Date | undefined>(undefined);
@@ -42,6 +52,7 @@ const BookDemo = () => {
     serviceType: "",
     concerns: "",
   });
+  const [selectedBodyParts, setSelectedBodyParts] = useState<BodyPart[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [bookingId, setBookingId] = useState<string>("");
@@ -102,6 +113,16 @@ const BookDemo = () => {
     }));
   };
 
+  const handleBodyPartSelect = (part: BodyPart) => {
+    setSelectedBodyParts(prevParts => {
+      if (prevParts.includes(part)) {
+        return prevParts.filter(p => p !== part);
+      } else {
+        return [...prevParts, part];
+      }
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -138,6 +159,7 @@ const BookDemo = () => {
       const bookingData = {
         ...formData,
         date: date.toISOString(),
+        bodyParts: selectedBodyParts,
       };
       
       const result = await createBooking(bookingData);
@@ -208,6 +230,12 @@ const BookDemo = () => {
                   <p className="text-sm text-gray-500">Name</p>
                   <p className="font-medium">{formData.name}</p>
                 </div>
+                {selectedBodyParts.length > 0 && (
+                  <div>
+                    <p className="text-sm text-gray-500">Selected Areas</p>
+                    <p className="font-medium">{selectedBodyParts.map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(', ')}</p>
+                  </div>
+                )}
               </div>
             </div>
             <p className="text-gray-600 mb-6">
@@ -386,25 +414,87 @@ const BookDemo = () => {
                       </div>
                       
                       <div className="grid grid-cols-2 gap-3">
-  {timeSlots.map((slot) => (
-    <Button
-      key={slot.time}
-      type="button"
-      variant="outline"
-      className={cn(
-        "transition-all duration-300 rounded-md border border-gray-200 hover:border-blue-300",
-        formData.preferredTime === slot.time
-          ? "border-blue-300 font-medium"
-          : ""
-      )}
-      onClick={() => handleTimeSelect(slot.time)}
-    >
-      <span className="text-blue-500">{slot.time}</span>
-    </Button>
-  ))}
-</div>
-
+                        {timeSlots.map((slot) => (
+                          <Button
+                            key={slot.time}
+                            type="button"
+                            variant="outline"
+                            className={cn(
+                              "transition-all duration-300 rounded-md border border-gray-200 hover:border-blue-300",
+                              formData.preferredTime === slot.time
+                                ? "border-blue-300 font-medium"
+                                : ""
+                            )}
+                            onClick={() => handleTimeSelect(slot.time)}
+                          >
+                            <span className="text-blue-500">{slot.time}</span>
+                          </Button>
+                        ))}
+                      </div>
                     </div>
+                  </div>
+
+                  <div className="mb-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center">
+                        <Activity className="mr-2 h-5 w-5 text-physicotech-600" />
+                        <span className="font-medium">Select Affected Areas</span>
+                      </div>
+                      <Sheet>
+                        <SheetTrigger asChild>
+                          <Button variant="outline" className="text-sm h-8">
+                            Select Body Parts
+                          </Button>
+                        </SheetTrigger>
+                        <SheetContent className="w-[90%] sm:w-[500px]">
+                          <SheetHeader>
+                            <SheetTitle>Select Areas for Treatment</SheetTitle>
+                            <SheetDescription>
+                              Click on the body parts where you need physiotherapy treatment
+                            </SheetDescription>
+                          </SheetHeader>
+                          <div className="py-6">
+                            <BodyPartSelector 
+                              onSelect={handleBodyPartSelect}
+                              selectedParts={selectedBodyParts}
+                            />
+                          </div>
+                          <div className="mt-4">
+                            <div className="text-sm font-medium mb-2">Selected Areas:</div>
+                            {selectedBodyParts.length > 0 ? (
+                              <div className="flex flex-wrap gap-2">
+                                {selectedBodyParts.map(part => (
+                                  <div 
+                                    key={part} 
+                                    className="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full"
+                                  >
+                                    {part.charAt(0).toUpperCase() + part.slice(1)}
+                                  </div>
+                                ))}
+                              </div>
+                            ) : (
+                              <p className="text-sm text-gray-500">No areas selected</p>
+                            )}
+                          </div>
+                        </SheetContent>
+                      </Sheet>
+                    </div>
+                    
+                    {selectedBodyParts.length > 0 && (
+                      <div className="mb-4 p-3 bg-gray-50 rounded-md">
+                        <div className="text-sm font-medium mb-2">Selected treatment areas:</div>
+                        <div className="flex flex-wrap gap-2">
+                          {selectedBodyParts.map(part => (
+                            <div 
+                              key={part} 
+                              className="bg-physicotech-100 text-physicotech-800 text-xs px-2 py-1 rounded-full"
+                            >
+                              {part.charAt(0).toUpperCase() + part.slice(1)}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div className="mb-6">
