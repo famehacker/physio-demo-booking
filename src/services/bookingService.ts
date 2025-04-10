@@ -28,6 +28,7 @@ export const createBooking = async (bookingData: Booking): Promise<{ success: bo
         preferredtime: bookingData.preferredTime,
         servicetype: bookingData.serviceType,
         concerns: bookingData.concerns,
+        bodyparts: bookingData.bodyParts || [],
         createdat: new Date().toISOString()
       });
     

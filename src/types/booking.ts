@@ -8,6 +8,7 @@ export interface Booking {
   preferredTime: string;
   serviceType: string;
   concerns: string;
+  bodyParts?: string[];
   createdAt?: string;
   bookingId?: string;
 }
@@ -22,5 +23,6 @@ export interface BookingDbRecord {
   preferredtime: string;
   servicetype: string;
   concerns?: string;
+  bodyparts?: string[];
   createdat: string;
 }

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -21,7 +20,8 @@ import {
   CreditCard, 
   CheckCircle,
   Calendar as CalendarIcon,
-  Users
+  Users,
+  Activity
 } from "lucide-react";
 import {
   Select,
@@ -30,6 +30,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import BodyPartSelector, { BodyPart } from "@/components/BodyPartSelector";
+import { createBooking } from "@/services/bookingService";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 
 const Booking = () => {
   const [selectedTab, setSelectedTab] = useState("appointment");
@@ -44,6 +48,7 @@ const Booking = () => {
     notes: "",
     packageType: "",
   });
+  const [selectedBodyParts, setSelectedBodyParts] = useState<BodyPart[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { toast } = useToast();
@@ -79,7 +84,17 @@ const Booking = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleBodyPartSelection = (part: BodyPart) => {
+    setSelectedBodyParts(prev => {
+      if (prev.includes(part)) {
+        return prev.filter(p => p !== part);
+      } else {
+        return [...prev, part];
+      }
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
@@ -92,18 +107,57 @@ const Booking = () => {
       return;
     }
 
-    // Simulate form submission
-    setTimeout(() => {
-      console.log({ ...formData, date, type: selectedTab });
-      setIsSubmitting(false);
-      setIsSubmitted(true);
+    if (selectedBodyParts.length === 0 && selectedTab === "appointment") {
       toast({
-        title: "Booking successful!",
-        description: selectedTab === "appointment" 
-          ? "Your appointment has been scheduled." 
-          : "Your subscription package has been purchased.",
+        title: "Please select at least one body part",
+        variant: "destructive",
       });
-    }, 1500);
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      if (selectedTab === "appointment") {
+        const result = await createBooking({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          date: date ? date.toISOString() : new Date().toISOString(),
+          preferredTime: formData.timeSlot,
+          serviceType: formData.serviceType,
+          concerns: formData.notes,
+          bodyParts: selectedBodyParts,
+        });
+
+        if (result.success) {
+          setIsSubmitted(true);
+          toast({
+            title: "Booking successful!",
+            description: "Your appointment has been scheduled.",
+          });
+        } else {
+          throw new Error("Booking failed");
+        }
+      } else {
+        setTimeout(() => {
+          console.log({ ...formData, type: selectedTab });
+          setIsSubmitted(true);
+          toast({
+            title: "Booking successful!",
+            description: "Your subscription package has been purchased.",
+          });
+        }, 1500);
+      }
+    } catch (error) {
+      console.error("Error creating booking:", error);
+      toast({
+        title: "Booking failed",
+        description: "There was an error processing your request. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isSubmitted) {
@@ -147,6 +201,10 @@ const Booking = () => {
                   <div>
                     <p className="text-sm text-gray-500">Service</p>
                     <p className="font-medium">{formData.serviceType}</p>
+                  </div>
+                  <div className="col-span-2">
+                    <p className="text-sm text-gray-500">Target Areas</p>
+                    <p className="font-medium">{selectedBodyParts.map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(", ")}</p>
                   </div>
                 </div>
               </div>
@@ -273,6 +331,49 @@ const Booking = () => {
                           </SelectContent>
                         </Select>
                       </div>
+                    </div>
+
+                    <div className="mb-8">
+                      <div className="flex items-center gap-2 mb-4">
+                        <Activity className="h-5 w-5 text-physicotech-600" />
+                        <h3 className="font-semibold text-lg">Select Treatment Areas</h3>
+                      </div>
+                      <p className="text-sm text-gray-600 mb-4">
+                        Click on the body parts where you need therapy. You can select multiple areas.
+                      </p>
+                      
+                      <div className="border rounded-lg p-4 bg-white mb-4">
+                        <BodyPartSelector 
+                          onSelect={handleBodyPartSelection} 
+                          selectedParts={selectedBodyParts} 
+                        />
+                      </div>
+                      
+                      {selectedBodyParts.length > 0 && (
+                        <div className="bg-gray-50 p-4 rounded-lg">
+                          <p className="font-medium mb-2">Selected areas:</p>
+                          <div className="flex flex-wrap gap-2">
+                            {selectedBodyParts.map(part => (
+                              <div 
+                                key={part}
+                                className="bg-physicotech-100 text-physicotech-700 px-3 py-1 rounded-full text-sm flex items-center gap-1"
+                              >
+                                {part.charAt(0).toUpperCase() + part.slice(1).replace(/([A-Z])/g, ' $1')}
+                                <button 
+                                  type="button"
+                                  onClick={() => setSelectedBodyParts(prev => prev.filter(p => p !== part))}
+                                  className="w-4 h-4 rounded-full bg-physicotech-200 text-physicotech-700 flex items-center justify-center ml-1 hover:bg-physicotech-300"
+                                >
+                                  ×
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                       <div>
                         <Label htmlFor="therapist" className="mb-1 block">Preferred Therapist</Label>
                         <Select 
